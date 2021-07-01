@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gft.io/request.schema.json",
+  "title": "Sample Request",
+  "description": "A Sample request from Company's catalog",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Sample Name",
+      "example": "My Sample Name"
+    },
+    "alias": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Sample Alias",
+      "example": "my-sample-alias"
+    },
+    "balance": {
+      "type": "number",
+      "description": "Sample Balance",
+      "example": 100.00
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "Sample Currency",
+      "example": "SGD"
+    },
+    "visible": {
+      "type": "boolean",
+      "description": "Is the Sample Visible",
+      "example": true
+    },
+    "favorite": {
+      "type": "boolean",
+      "description": "Is the Sample marked as favorite",
+      "example": false
+    }
+  },
+  "required": [ "name", "currency", "visible", "favorite" ]
+}

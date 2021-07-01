@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: sample-service
+  zipkin:
+    enabled: false
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+
+logging:
+  level:
+    io.stoks: "debug"
+
+server:
+  servlet:
+    contextPath: /${spring.application.name}
+  port: 8080
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "prometheus,health,info,metrics"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+
+springdoc:
+  swagger-ui:
+    url: /${spring.application.name}/openapi.yaml
+
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 3
+
+amazon:
+  aws:
+    accesskey:
+    secretkey:
+
+

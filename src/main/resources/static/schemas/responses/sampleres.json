@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stoks.io/sample.schema.json",
+  "title": "Sample",
+  "description": "A Sample Object from Company's catalog",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Sample id",
+      "example": "a8ec-fb34-eeba-d93d"
+    },
+    "number": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "description": "Sample Number",
+      "example": "12345678901"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Sample Name",
+      "example": "My Sample Name"
+    },
+    "alias": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Sample Alias",
+      "example": "my-sample-alias"
+    },
+    "type": {
+      "type": "string",
+      "description": "Sample Type",
+      "example": "SAMPLE_ONE"
+    },
+    "balance": {
+      "type": "number",
+      "description": "Sample Balance",
+      "example": 100.00
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "Sample Currency",
+      "example": "SGD"
+    },
+    "status": {
+      "type": "string",
+      "description": "Sample Status",
+      "example": "ACTIVE"
+    },
+    "visible": {
+      "type": "boolean",
+      "description": "Is the Sample Visible",
+      "example": true
+    },
+    "favorite": {
+      "type": "boolean",
+      "description": "Is the Sample marked as favorite",
+      "example": false
+    },
+    "createdOn": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Sample creation date-time",
+      "example": "2018-11-13T20:20:39+00:00"
+    }
+  },
+  "required": [ ]
+}

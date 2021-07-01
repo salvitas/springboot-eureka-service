@@ -1,0 +1,201 @@
+openapi: 3.0.3
+
+info:
+  title: Sample API
+  version: 1.0.0
+  description: The Sample API will allow performing operations related to samples
+  x-audience: company-internal
+  contact:
+    name: Salva Vilarrasa
+    email: shagy69@gmail.com
+    url: http://www.stoks.io
+
+tags:
+  - name: Samples
+    description: Operations related to Samples
+
+servers:
+  - url: http://localhost:8080/sample-service
+    description: local server
+
+# Security Features
+security:
+  - bearerAuth: [] #list of scopes
+
+paths:
+  /samples:
+    get:
+      tags:
+        - Samples
+      summary: Get All Samples
+      description: Get All Samples
+      operationId: getSamples
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './schemas/responses/sampleres.json'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        default:
+          description: Error
+          content:
+            "application/problem+json":
+              schema:
+                $ref: './schemas/generic/problem.json'
+    post:
+      tags:
+        - Samples
+      summary: Creates a new Sample object
+      description: Creates a new Sample object
+      operationId: createSample
+      requestBody:
+        description: Sample to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/requests/samplereq.json'
+      responses:
+        '201':
+          description: Created
+          content:
+            "application/json;version=1":
+              schema:
+                $ref: '#/components/schemas/SampleResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        default:
+          description: Error
+          content:
+            "application/problem+json":
+              schema:
+                $ref: './schemas/generic/problem.json'
+  /samples/fx-rate/{destinationCurrency}:
+    get:
+      tags:
+        - Samples
+      summary: Gets an FX Rate for the destination currency
+      description: Gets an FX Rate for the destination currency
+      operationId: getFxRate
+      parameters:
+        - in: path
+          name: destinationCurrency
+          schema:
+            type: string
+            pattern: ^[A-Z]{3}$
+          example: SGD
+          required: true
+          description: ISO 4217 currency code
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Error
+          content:
+            "application/problem+json":
+              schema:
+                $ref: './schemas/generic/problem.json'
+  /samples/{sampleId}:
+    get:
+      tags:
+        - Samples
+      summary: Gets a Sample Object given its ID
+      description: Gets a Sample Object given its ID
+      operationId: getSample
+      parameters:
+        - in: path
+          name: sampleId
+          schema:
+            type: string
+          example: 3577-ff9e-f908-a766
+          required: true
+          description: Item Id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/responses/sampleres.json'
+        '404':
+          description: Not Found
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          description: Error
+          content:
+            "application/problem+json":
+              schema:
+                $ref: './schemas/generic/problem.json'
+    put:
+      tags:
+        - Samples
+      summary: Update Sample
+      description: Update Sample
+      operationId: updateSample
+      parameters:
+        - name: sampleId
+          description: ID of sample to update
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 3577-ff9e-f908-a766
+      requestBody:
+        description: Sample entity whose alias is going to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AliasUpdate'
+      responses:
+        '204':
+          description: Updated
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        default:
+          description: Error
+          content:
+            "application/problem+json":
+              schema:
+                $ref: './schemas/generic/problem.json'
+
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+
+  schemas:
+    SampleResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: UUID of created object
+          example: 9d67-c634-a8ec-fb34-eeba-d93d-1f3d-10b1
+    AliasUpdate:
+      type: object
+      properties:
+        alias:
+          type: string
+          description: Alias String to update
+          example: test
+      required:
+        - alias
